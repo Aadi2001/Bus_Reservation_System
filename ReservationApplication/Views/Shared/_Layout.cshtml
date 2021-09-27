@@ -34,7 +34,8 @@
                         if (User.IsInRole("Admin"))
                         {
                             <li>@Html.ActionLink("Add Bus", "BusList", "Admin")</li>
-                            <li>@Html.ActionLink("Schedule Bus", "ScheduledBusList", "Admin")</li>
+                            <li>@Html.ActionLink("Schedule Bus", "ScheduleBus", "Admin")</li>
+                            <li>@Html.ActionLink("Scheduled Bus List ", "ScheduleBusList", "Admin")</li>
                         }
 
                         <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>

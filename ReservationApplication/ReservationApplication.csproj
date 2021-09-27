@@ -147,6 +147,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +173,8 @@
     <Compile Include="Models\ScheduleDetails.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SelectBusListModel.cs" />
+    <Compile Include="Models\SelectBusModel.cs" />
     <Compile Include="Models\UserDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -189,6 +192,11 @@
     <Content Include="Views\Admin\DetailBus.cshtml" />
     <Content Include="Views\Admin\DeleteBus.cshtml" />
     <Content Include="Views\Admin\ScheduleBus.cshtml" />
+    <Content Include="Views\Admin\ScheduleBusList.cshtml" />
+    <Content Include="Views\Admin\EditSchedule.cshtml" />
+    <Content Include="Views\Admin\DetailsSchedule.cshtml" />
+    <Content Include="Views\Admin\DeleteSchedule.cshtml" />
+    <Content Include="Views\User\SelectBus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

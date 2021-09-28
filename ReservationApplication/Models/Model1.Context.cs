@@ -28,5 +28,6 @@ namespace ReservationApplication.Models
         public virtual DbSet<BusDetails> BusDetails { get; set; }
         public virtual DbSet<ScheduleDetails> ScheduleDetails { get; set; }
         public virtual DbSet<UserDetail> UserDetail { get; set; }
+        public virtual DbSet<BookingDetails> BookingDetails { get; set; }
     }
 }

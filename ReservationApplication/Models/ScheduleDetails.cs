@@ -14,6 +14,12 @@ namespace ReservationApplication.Models
     
     public partial class ScheduleDetails
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ScheduleDetails()
+        {
+            this.BookingDetails = new HashSet<BookingDetails>();
+        }
+    
         public int ScheduleId { get; set; }
         public int BusId { get; set; }
         public System.DateTime Date { get; set; }
@@ -26,5 +32,7 @@ namespace ReservationApplication.Models
         public string Destination { get; set; }
     
         public virtual BusDetails BusDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookingDetails> BookingDetails { get; set; }
     }
 }

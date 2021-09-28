@@ -18,6 +18,7 @@ namespace ReservationApplication.Models
         public BusDetails()
         {
             this.ScheduleDetails = new HashSet<ScheduleDetails>();
+            this.BookingDetails = new HashSet<BookingDetails>();
         }
     
         public int BusId { get; set; }
@@ -28,5 +29,7 @@ namespace ReservationApplication.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleDetails> ScheduleDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BookingDetails> BookingDetails { get; set; }
     }
 }

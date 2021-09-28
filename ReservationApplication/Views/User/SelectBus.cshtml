@@ -47,6 +47,9 @@
 }
 <table class="table">
     <tr>
+        @*<th>
+            <label>Bus Name</label>
+        </th>*@
         <th>
             <label>Bus Type</label>
         </th>
@@ -62,20 +65,23 @@
     @foreach (var item in (IEnumerable<ReservationApplication.Models.SelectBusListModel>)ViewData["ListItem"])
 
     {
-        <tr>
-            <td>
-                @item.BusType
-            </td>
-            <td>
-                @item.AvailableSeats
-            </td>
-            <td>
-                @item.DepartTime
-            </td>
-            <td>
-                @Html.ActionLink("Select Bus", "ReserveSeats", new { BusId = item.BusId, ScheduleId = item.ScheduleId = item.ScheduleId })
-            </td>
-        </tr>
+<tr>
+    @*<td>
+        @item.BusName
+    </td>*@
+    <td>
+        @item.BusType
+    </td>
+    <td>
+        @item.AvailableSeats
+    </td>
+    <td>
+        @item.DepartTime
+    </td>
+    <td>
+        @Html.ActionLink("Select Bus", "ReserveSeats", new { BusId = item.BusId, ScheduleId = item.ScheduleId = item.ScheduleId })
+    </td>
+</tr>
 
     }
 </table>

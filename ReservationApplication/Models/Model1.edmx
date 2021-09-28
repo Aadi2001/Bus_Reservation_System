@@ -4,7 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BusReservationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BusReservationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookingDetails">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegId" Type="int" Nullable="false" />
+          <Property Name="BusId" Type="int" Nullable="false" />
+          <Property Name="Schedule" Type="int" Nullable="false" />
+          <Property Name="Fname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdProof" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SeatNo" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="BusDetails">
           <Key>
             <PropertyRef Name="BusId" />
@@ -43,6 +56,42 @@
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK__BookingDe__BusId__70DDC3D8">
+          <End Role="BusDetails" Type="Self.BusDetails" Multiplicity="1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusDetails">
+              <PropertyRef Name="BusId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="BusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingDe__RegId__6FE99F9F">
+          <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="RegId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="RegId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingDe__Sched__71D1E811">
+          <End Role="ScheduleDetails" Type="Self.ScheduleDetails" Multiplicity="1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleDetails">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ScheduleD__BusId__5CD6CB2B">
           <End Role="BusDetails" Type="Self.BusDetails" Multiplicity="1" />
           <End Role="ScheduleDetails" Type="Self.ScheduleDetails" Multiplicity="*" />
@@ -56,16 +105,28 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BusReservationModelStoreContainer">
+          <EntitySet Name="BookingDetails" EntityType="Self.BookingDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BusDetails" EntityType="Self.BusDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduleDetails" EntityType="Self.ScheduleDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BookingDe__BusId__70DDC3D8" Association="Self.FK__BookingDe__BusId__70DDC3D8">
+            <End Role="BusDetails" EntitySet="BusDetails" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__RegId__6FE99F9F" Association="Self.FK__BookingDe__RegId__6FE99F9F">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__Sched__71D1E811" Association="Self.FK__BookingDe__Sched__71D1E811">
+            <End Role="ScheduleDetails" EntitySet="ScheduleDetails" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK__ScheduleD__BusId__5CD6CB2B" Association="Self.FK__ScheduleD__BusId__5CD6CB2B">
             <End Role="BusDetails" EntitySet="BusDetails" />
             <End Role="ScheduleDetails" EntitySet="ScheduleDetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BusReservationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -79,6 +140,7 @@
           <Property Name="TotalSeats" Type="Int32" Nullable="false" />
           <Property Name="BusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="ScheduleDetails" Relationship="Self.FK__ScheduleD__BusId__5CD6CB2B" FromRole="BusDetails" ToRole="ScheduleDetails" />
+          <NavigationProperty Name="BookingDetails" Relationship="BusReservationModel.FK__BookingDe__BusId__70DDC3D8" FromRole="BusDetails" ToRole="BookingDetails" />
         </EntityType>
         <EntityType Name="ScheduleDetails">
           <Key>
@@ -95,6 +157,7 @@
           <Property Name="Origin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Destination" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="BusDetails" Relationship="Self.FK__ScheduleD__BusId__5CD6CB2B" FromRole="ScheduleDetails" ToRole="BusDetails" />
+          <NavigationProperty Name="BookingDetails" Relationship="BusReservationModel.FK__BookingDe__Sched__71D1E811" FromRole="ScheduleDetails" ToRole="BookingDetails" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -108,6 +171,7 @@
           <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BookingDetails" Relationship="BusReservationModel.FK__BookingDe__RegId__6FE99F9F" FromRole="UserDetail" ToRole="BookingDetails" />
         </EntityType>
         <Association Name="FK__ScheduleD__BusId__5CD6CB2B">
           <End Role="BusDetails" Type="Self.BusDetails" Multiplicity="1" />
@@ -129,7 +193,72 @@
             <End Role="BusDetails" EntitySet="BusDetails" />
             <End Role="ScheduleDetails" EntitySet="ScheduleDetails" />
           </AssociationSet>
+          <EntitySet Name="BookingDetails" EntityType="BusReservationModel.BookingDetails" />
+          <AssociationSet Name="FK__BookingDe__BusId__70DDC3D8" Association="BusReservationModel.FK__BookingDe__BusId__70DDC3D8">
+            <End Role="BusDetails" EntitySet="BusDetails" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__RegId__6FE99F9F" Association="BusReservationModel.FK__BookingDe__RegId__6FE99F9F">
+            <End Role="UserDetail" EntitySet="UserDetail" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__Sched__71D1E811" Association="BusReservationModel.FK__BookingDe__Sched__71D1E811">
+            <End Role="ScheduleDetails" EntitySet="ScheduleDetails" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="BookingDetails">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegId" Type="Int32" Nullable="false" />
+          <Property Name="BusId" Type="Int32" Nullable="false" />
+          <Property Name="Schedule" Type="Int32" Nullable="false" />
+          <Property Name="Fname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Lname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdProof" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SeatNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BusDetails" Relationship="BusReservationModel.FK__BookingDe__BusId__70DDC3D8" FromRole="BookingDetails" ToRole="BusDetails" />
+          <NavigationProperty Name="UserDetail" Relationship="BusReservationModel.FK__BookingDe__RegId__6FE99F9F" FromRole="BookingDetails" ToRole="UserDetail" />
+          <NavigationProperty Name="ScheduleDetails" Relationship="BusReservationModel.FK__BookingDe__Sched__71D1E811" FromRole="BookingDetails" ToRole="ScheduleDetails" />
+        </EntityType>
+        <Association Name="FK__BookingDe__BusId__70DDC3D8">
+          <End Type="BusReservationModel.BusDetails" Role="BusDetails" Multiplicity="1" />
+          <End Type="BusReservationModel.BookingDetails" Role="BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BusDetails">
+              <PropertyRef Name="BusId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="BusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingDe__RegId__6FE99F9F">
+          <End Type="BusReservationModel.UserDetail" Role="UserDetail" Multiplicity="1" />
+          <End Type="BusReservationModel.BookingDetails" Role="BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetail">
+              <PropertyRef Name="RegId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="RegId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingDe__Sched__71D1E811">
+          <End Type="BusReservationModel.ScheduleDetails" Role="ScheduleDetails" Multiplicity="1" />
+          <End Type="BusReservationModel.BookingDetails" Role="BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleDetails">
+              <PropertyRef Name="ScheduleId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -174,6 +303,20 @@
                 <ScalarProperty Name="Contact" ColumnName="Contact" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingDetails">
+            <EntityTypeMapping TypeName="BusReservationModel.BookingDetails">
+              <MappingFragment StoreEntitySet="BookingDetails">
+                <ScalarProperty Name="SeatNo" ColumnName="SeatNo" />
+                <ScalarProperty Name="IdProof" ColumnName="IdProof" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="Schedule" ColumnName="Schedule" />
+                <ScalarProperty Name="BusId" ColumnName="BusId" />
+                <ScalarProperty Name="RegId" ColumnName="RegId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

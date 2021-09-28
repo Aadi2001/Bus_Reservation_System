@@ -147,6 +147,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -173,6 +174,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReservationsModel.cs" />
     <Compile Include="Models\ScheduleDetails.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -201,6 +203,7 @@
     <Content Include="Views\Admin\DeleteSchedule.cshtml" />
     <Content Include="Views\User\SelectBus.cshtml" />
     <Content Include="Views\User\ReserveSeats.cshtml" />
+    <Content Include="Views\Reservations\Reservations.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,13 @@ namespace ReservationApplication.Controllers
 {
     public class UserController : Controller
     {
-      
+        List<SelectListItem> ObjItem = new List<SelectListItem>()
+            {
+                new SelectListItem{ Text = "Aadhar Card", Value="1"},
+                new SelectListItem{ Text = "Pan Card", Value="2"},
+                new SelectListItem{ Text = "Election Card", Value="3"},
+            };
+
         BusReservationEntities db = new BusReservationEntities();
         // GET: User
         public ActionResult SelectBus()
@@ -42,15 +49,10 @@ namespace ReservationApplication.Controllers
         }
         public ActionResult ReserveSeats(int BusId, int ScheduleId)
         {
+            TempData["BusId"] = BusId;
+            TempData["ScheduleId"] = ScheduleId;
             ViewBag.BusDetails = db.BusDetails.Single(x => x.BusId == BusId);
             ViewBag.ScheduleDetails = db.ScheduleDetails.Single(x => x.ScheduleId == ScheduleId);
-
-            List<SelectListItem> ObjItem = new List<SelectListItem>()
-            {
-                new SelectListItem{ Text = "Aadhar Card", Value="1"},
-                new SelectListItem{ Text = "Pan Card", Value="2"},
-                new SelectListItem{ Text = "Election Card", Value="3"},
-            };
             ViewData["ListItem"] = ObjItem;
             return View();
         }
@@ -85,7 +87,21 @@ namespace ReservationApplication.Controllers
         }
         private void ConfirmReservation(string fname, string lname, string idproof)
         {
-            
+            BookingDetails booking = new BookingDetails();
+            booking.RegId = db.UserDetail.Single(x => x.EmailId == User.Identity.Name).RegId;
+            booking.BusId = (int)TempData["BusId"];
+            booking.Schedule = (int)TempData["ScheduleId"];
+            booking.Fname = fname;
+            booking.Lname = lname;
+            booking.IdProof = this.ObjItem.Single(x => x.Value == idproof).Text;
+            booking.SeatNo = db.ScheduleDetails.Single(x => x.ScheduleId == booking.Schedule).BookedSeats + 1;
+            db.BookingDetails.Add(booking);
+
+            ScheduleDetails schedule = db.ScheduleDetails.Single(x => x.ScheduleId == booking.Schedule);
+            schedule.BookedSeats += 1;
+            schedule.AvailableSeats -= 1;
+            db.Entry(schedule).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
 

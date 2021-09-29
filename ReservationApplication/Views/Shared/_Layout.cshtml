@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Reservation Application</title>
+    <title>@ViewBag.Title - Bus Reservation Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -17,18 +17,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Reservation Application", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Bus Reservation Application", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("About Us", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact Us", "Contact", "Home")</li>
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("User"))
                         {
                             <li>@Html.ActionLink("Reserve Seats", "SelectBus", "User")</li>
+                            <li>@Html.ActionLink("My Reservations", "Reservations", "Reservations")</li>
                         }
 
                         if (User.IsInRole("Admin"))
@@ -36,6 +37,7 @@
                             <li>@Html.ActionLink("Add Bus", "BusList", "Admin")</li>
                             <li>@Html.ActionLink("Schedule Bus", "ScheduleBus", "Admin")</li>
                             <li>@Html.ActionLink("Scheduled Bus List ", "ScheduleBusList", "Admin")</li>
+                            <li>@Html.ActionLink("All Reservations", "Reservations", "Reservations")</li>
                         }
 
                         <li>@Html.ActionLink("Logout", "Logout", "Auth")</li>
@@ -48,12 +50,15 @@
             </div>
         </div>
     </div>
-
+    <center><img src="https://www.mercedes-benz.com/en/vehicles/buses/_jcr_content/root/slider_0/sliderchilditems/slideritem_0/image/MQ7-0-image-20190701182237/00-mercedes-benz-vehicles-buses-tourismo-rhd-3400x1440.jpeg" height="480" width="1200" /></center>
     <div class="container body-content">
         @RenderBody()
         <hr />
+        <div>
+
+        </div>
         <footer>
-            <p>&copy; @DateTime.Now.Year - Reservation Application</p>
+            <p>&copy; @DateTime.Now.Year - Bus Reservation Application</p>
         </footer>
     </div>
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ReservationApplication.Models;
 namespace ReservationApplication.Controllers
 {
+    
     public class ReservationsController : Controller
     {
         BusReservationEntities db = new BusReservationEntities();
@@ -16,7 +17,7 @@ namespace ReservationApplication.Controllers
             List<BookingDetails> booking = new List<BookingDetails>();
             int regId;
 
-            if (db.UserDetail.Single(x => x.EmailId == User.Identity.Name).Role.ToLower() != "Admin")
+            if (db.UserDetail.Single(x => x.EmailId == User.Identity.Name).Role.ToLower() != "admin")
             {
                 regId = db.UserDetail.Single(x => x.EmailId == User.Identity.Name).RegId;
                 booking = (from bd in db.BookingDetails where bd.RegId == regId select bd).ToList();
@@ -37,7 +38,41 @@ namespace ReservationApplication.Controllers
                 reservations.Add(res);
             }
 
-            return View();
+            return View(reservations);
+        }
+
+        public ActionResult ReservationDetails(int Id)
+        {
+            ReservationsModel reservation = new ReservationsModel();
+            reservation.bookingDetails = db.BookingDetails.Single(x => x.BookingId == Id);
+            reservation.busDetails = db.BusDetails.Single(x => x.BusId == reservation.bookingDetails.BusId);
+            reservation.scheduleDetails = db.ScheduleDetails.Single(x => x.ScheduleId == reservation.bookingDetails.Schedule);
+
+            return View(reservation);
+        }
+
+        public ActionResult ReservationDelete(int Id)
+        {
+            ReservationsModel reservation = new ReservationsModel();
+            reservation.bookingDetails = db.BookingDetails.Single(x => x.BookingId == Id);
+            reservation.busDetails = db.BusDetails.Single(x => x.BusId == reservation.bookingDetails.BusId);
+            reservation.scheduleDetails = db.ScheduleDetails.Single(x => x.ScheduleId == reservation.bookingDetails.Schedule);
+
+            return View(reservation);
+        }
+        [HttpPost]
+        [ActionName("ReservationDelete")]
+        public ActionResult ReservationDeleteConfirm(int Id)
+        {
+            BookingDetails bookingDetails = db.BookingDetails.Single(x => x.BookingId == Id);
+            db.BookingDetails.Remove(bookingDetails);
+
+            ScheduleDetails scheduleDetails = db.ScheduleDetails.Single(x => x.ScheduleId == bookingDetails.Schedule);
+            scheduleDetails.BookedSeats -= 1;
+            scheduleDetails.AvailableSeats += 1;
+            db.Entry(scheduleDetails).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Reservations");
         }
     }
 }

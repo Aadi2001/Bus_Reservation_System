@@ -53,7 +53,7 @@ namespace ReservationApplication.Controllers
             TempData["ScheduleId"] = ScheduleId;
             ViewBag.BusDetails = db.BusDetails.Single(x => x.BusId == BusId);
             ViewBag.ScheduleDetails = db.ScheduleDetails.Single(x => x.ScheduleId == ScheduleId);
-            ViewData["ListItem"] = ObjItem;
+            ViewData["ListItem"] = this.ObjItem;
             return View();
         }
         [HttpPost]

@@ -25,11 +25,11 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.bookingDetails.SeatNo</td>
-            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Date</td>
-            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.DepartTime</td>
-            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Origin</td>
-            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Destination</td>
+            <td>@Html.DisplayFor(modelItem => item.bookingDetails.SeatNo)</td>
+            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Date)</td>
+            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.DepartTime)</td>
+            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Origin)</td>
+            <td>@Html.DisplayFor(modelItem => item.scheduleDetails.Destination)</td>
             <td>
                 <ul class="navbar-nav list-unstyled">
                     @if (User.Identity.IsAuthenticated)

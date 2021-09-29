@@ -204,6 +204,10 @@
     <Content Include="Views\User\SelectBus.cshtml" />
     <Content Include="Views\User\ReserveSeats.cshtml" />
     <Content Include="Views\Reservations\Reservations.cshtml" />
+    <Content Include="Views\Reservations\ReservationDetails.cshtml" />
+    <Content Include="Views\Reservations\ReservationDelete.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
